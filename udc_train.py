@@ -1,12 +1,19 @@
 import os
+os.environ["CUDA_VISIBLE_DEVICES"] = '0' #use GPU with ID=0
+import tensorflow as tf
+config = tf.ConfigProto()
+config.gpu_options.per_process_gpu_memory_fraction = 0.5 # maximun alloc gpu50% of MEM
+config.gpu_options.allow_growth = True #allocate dynamically
+
 import time
 import itertools
-import tensorflow as tf
+
 import udc_model
 import udc_hparams
 import udc_metrics
 import udc_inputs
 from models.dual_encoder import dual_encoder_model
+
 
 tf.flags.DEFINE_string("input_dir", "./data", "Directory containing input data files 'train.tfrecords' and 'validation.tfrecords'")
 tf.flags.DEFINE_string("model_dir", None, "Directory to store model checkpoints (defaults to ./runs)")
